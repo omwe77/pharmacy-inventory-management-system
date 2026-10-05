@@ -1,22 +1,53 @@
-# search.py
-# Searches the inventory for medicines that match a keyword
-# (looks in both the medicine name and the brand name).
+# utils.py
+# Small helper functions used by almost every other file.
+# They handle user input, timestamps, unique filenames, and pauses.
 
-import display
-import utils
+import datetime
+import random
 
-def search(stock):   # <-- parameter renamed from 'inventory' to 'stock'
-    """Let the user search for medicines by name or brand."""
-    print("\n=== Search Medicine ===")
-    keyword = utils.get_non_empty_string("Enter medicine name or brand to search: ").lower()
-    matches = []
-    for med in stock:   # use stock
-        if keyword in med["name"].lower() or keyword in med["brand"].lower():
-            matches.append(med)
+def get_positive_int(prompt):
+    """Keep asking until the user enters a whole number >= 0."""
+    while True:
+        try:
+            value = int(input(prompt))
+            if value < 0:
+                print("Please enter a positive number (or 0).")
+            else:
+                return value
+        except ValueError:
+            print("That doesn't look like a whole number. Try again.")
 
-    if len(matches) == 0:
-        print("No matching medicines found.")
-    else:
-        print(f"\nFound {len(matches)} medicine(s):")
-        display.show_all_medicines(matches)
-    utils.wait_for_enter()
+def get_positive_float(prompt):
+    """Keep asking until the user enters a decimal number > 0."""
+    while True:
+        try:
+            value = float(input(prompt))
+            if value <= 0:
+                print("Please enter a number greater than 0.")
+            else:
+                return value
+        except ValueError:
+            print("Please enter a number like 12.50.")
+
+def get_non_empty_string(prompt):
+    """Keep asking until the user types something (not just an empty line)."""
+    while True:
+        text = input(prompt)          # No .strip() – we keep spaces if typed
+        if text:                      # Empty string means they pressed Enter immediately
+            return text
+        print("This cannot be empty. Please try again.")
+
+def current_datetime_string():
+    """Return current date and time as 'DD/MM/YYYY  HH:MM'."""
+    now = datetime.datetime.now()
+    return f"{now.day:02d}/{now.month:02d}/{now.year}  {now.hour:02d}:{now.minute:02d}"
+
+def make_unique_filename(prefix):
+    """Create a filename that won't clash with others (date + random number)."""
+    date_part = datetime.datetime.now().strftime("%Y%m%d")
+    random_part = random.randint(1000, 9999)
+    return f"{prefix}_{date_part}_{random_part}.txt"
+
+def wait_for_enter():
+    """Pause the program until the user presses Enter."""
+    input("\nPress Enter to continue...")
