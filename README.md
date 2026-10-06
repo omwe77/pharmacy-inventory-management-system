@@ -63,6 +63,25 @@ pharmacy-inventory-management-system/
 
 ---
 
+## Implementation Status
+
+### Implemented (Verified in Active Codebase)
+- **File-Based CSV Persistence:** Atomically synchronizes stock levels to and from comma-separated text storage (`medicines.txt`).
+- **Transactional Billing:** Decrements available stock, calculates 5% bulk discounts on 2+ strips of matching medicines, and outputs grand totals.
+- **Invoice & Note Generation:** Emits timestamped, human-readable sales invoices (`sale_YYYYMMDD_XXXX.txt`) and supplier restock notes.
+- **Supplier Restocking:** Adds new products or increments inventory quantities for existing catalogue items.
+- **Search & Filter:** Keyword substring matching across generic drug names and pharmaceutical brands.
+- **Input Sanitization:** Guarded CLI input functions prevent program termination on malformed types or empty values.
+
+### In Progress
+- *None (Academic Coursework Deliverable Complete).*
+
+### Planned (Future Enhancements)
+- **Relational Persistence:** Migrating from flat CSV files to an embedded SQLite or PostgreSQL backend with multi-process file locking.
+- **Web Interface:** Constructing a lightweight FastAPI or Flask administrative dashboard.
+
+---
+
 ## Quick Start
 
 ### Prerequisites
